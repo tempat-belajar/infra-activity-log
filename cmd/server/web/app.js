@@ -146,14 +146,19 @@ logForm.addEventListener('submit', async (e) => {
 
   const url = id ? '/api/logs/' + id : '/api/logs';
   const method = id ? 'PUT' : 'POST';
-  const res = await fetch(url, { method, body: fd });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: 'Gagal menyimpan' }));
-    alert(err.error || 'Gagal menyimpan');
-    return;
+  try {
+    const res = await fetch(url, { method, body: fd });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'Gagal menyimpan (status ' + res.status + ')' }));
+      alert('Gagal menyimpan: ' + (err.error || res.status));
+      return;
+    }
+    alert('Log berhasil disimpan');
+    closeModal();
+    loadLogs();
+  } catch (e) {
+    alert('Gagal menyimpan: tidak bisa terhubung ke server (' + e.message + ')');
   }
-  closeModal();
-  loadLogs();
 });
 
 // image preview on file select
