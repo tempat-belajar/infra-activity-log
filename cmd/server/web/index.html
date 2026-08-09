@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,15 +12,15 @@
     <h1>📋 Infra Activity Log</h1>
     <button id="btnAdd" class="btn btn-primary">
       <span>➕</span>
-      <span>Tambah Log</span>
+      <span>Add Log</span>
     </button>
   </header>
 
   <div class="filters">
-    <input type="date" id="fDateFrom" title="Dari tanggal">
-    <input type="date" id="fDateTo" title="Sampai tanggal">
+    <input type="date" id="fDateFrom" title="From date">
+    <input type="date" id="fDateTo" title="To date">
     <select id="fPic">
-      <option value="">Semua PIC</option>
+      <option value="">All PIC</option>
       <option value="Zaqi">Zaqi</option>
       <option value="Dwi">Dwi</option>
       <option value="Irwan">Irwan</option>
@@ -28,19 +28,19 @@
       <option value="Benny">Benny</option>
     </select>
     <select id="fStatus">
-      <option value="">Semua Status</option>
+      <option value="">All Status</option>
       <option value="Open">Open</option>
       <option value="Process">Process</option>
       <option value="Hold">Hold</option>
       <option value="Done">Done</option>
     </select>
     <select id="fCategory">
-      <option value="">Semua Category</option>
+      <option value="">All Category</option>
       <option value="Change">Change</option>
       <option value="Daily">Daily</option>
       <option value="Incident">Incident</option>
     </select>
-    <input type="text" id="fSearch" placeholder="🔍 Cari label/application...">
+    <input type="text" id="fSearch" placeholder="🔍 Search label/application...">
     <button id="btnFilter" class="btn btn-primary">🔎 Filter</button>
     <button id="btnReset" class="btn btn-ghost">↻ Reset</button>
   </div>
@@ -49,7 +49,7 @@
     <table id="logsTable">
       <thead>
         <tr>
-          <th>Tanggal</th>
+          <th>Date</th>
           <th>Job Title</th>
           <th>PIC</th>
           <th>Application</th>
@@ -58,7 +58,7 @@
           <th>Req New Value</th>
           <th>Status</th>
           <th>Category</th>
-          <th>Aksi</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody id="logsBody"></tbody>
@@ -68,10 +68,10 @@
 
 <div id="modal" class="modal hidden">
   <div class="modal-content">
-    <h2 id="modalTitle">Tambah Log</h2>
+    <h2 id="modalTitle">Add Log</h2>
     <form id="logForm">
       <input type="hidden" id="logId">
-      <label>Tanggal <input type="date" id="fldTanggal" required></label>
+      <label>Date <input type="date" id="fldTanggal" required></label>
       <label>Job Title
         <select id="fldJobTitle" required>
           <option value="DBA">DBA</option>
@@ -88,19 +88,19 @@
           <option value="Benny">Benny</option>
         </select>
       </label>
-      <label>Application <input type="text" id="fldApplication" placeholder="cth: Wialon Local"></label>
-      <label>Label <textarea id="fldLabel" required placeholder="Deskripsi aktivitas"></textarea></label>
+      <label>Application <input type="text" id="fldApplication" placeholder="e.g: Wialon Local"></label>
+      <label>Label <textarea id="fldLabel" required placeholder="Activity description"></textarea></label>
 
       <fieldset>
         <legend>Old Value</legend>
-        <textarea id="fldOldValueText" placeholder="Teks old value (opsional)"></textarea>
+        <textarea id="fldOldValueText" placeholder="Old value text (optional)"></textarea>
         <input type="file" id="fldOldValueImage" accept="image/png,image/jpeg">
         <img id="oldPreview" class="preview hidden">
       </fieldset>
 
       <fieldset>
         <legend>Req New Value</legend>
-        <textarea id="fldNewValueText" placeholder="Teks new value (opsional)"></textarea>
+        <textarea id="fldNewValueText" placeholder="New value text (optional)"></textarea>
         <input type="file" id="fldNewValueImage" accept="image/png,image/jpeg">
         <img id="newPreview" class="preview hidden">
       </fieldset>
@@ -122,8 +122,8 @@
       </label>
 
       <div class="modal-actions">
-        <button type="button" id="btnCancel" class="btn btn-ghost">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
+        <button type="button" id="btnCancel" class="btn btn-ghost">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
     </form>
   </div>

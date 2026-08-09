@@ -8,9 +8,14 @@ jobs:
   test:
     runs-on: self-hosted
     steps:
+      - name: Cleanup workspace
+        run: |
+          cd ${{ github.workspace }}
+          git clean -ffdx || true
+          git reset --hard || true
       - uses: actions/checkout@v4
         with:
-          clean: false
+          clean: true
       - uses: actions/setup-go@v5
         with:
           go-version: '1.22'
@@ -25,9 +30,14 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: self-hosted
     steps:
+      - name: Cleanup workspace
+        run: |
+          cd ${{ github.workspace }}
+          git clean -ffdx || true
+          git reset --hard || true
       - uses: actions/checkout@v4
         with:
-          clean: false
+          clean: true
       - name: Build and deploy
         run: |
           docker compose -p infra-activity-log up -d --build

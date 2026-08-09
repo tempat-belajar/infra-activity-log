@@ -21,7 +21,7 @@ function buildQuery() {
 }
 
 async function loadLogs() {
-  logsBody.innerHTML = '<tr><td colspan="10" class="loading">Memuat data</td></tr>';
+  logsBody.innerHTML = '<tr><td colspan="10" class="loading">Loading data</td></tr>';
   try {
     const res = await fetch('/api/logs?' + buildQuery());
     const logs = await res.json();
@@ -30,7 +30,7 @@ async function loadLogs() {
     logsBody.innerHTML = `
       <tr>
         <td colspan="10" style="text-align:center;padding:40px;color:var(--danger);">
-          ⚠️ Gagal memuat data. Silakan coba lagi.
+          ⚠️ Failed to load data. Please try again.
         </td>
       </tr>`;
   }
@@ -40,7 +40,7 @@ function valueCell(text, imageUrl) {
   let html = '';
   if (imageUrl) html += `<img class="thumb" src="${imageUrl}" onclick="openLightbox('${imageUrl}')">`;
   if (text) html += `<div class="value-text">${escapeHtml(text)}</div>`;
-  return `<td class="value-cell">${html || '-'}</td>`;
+  return `<td class="value-cell" style="text-align:center;">${html || '-'}</td>`;
 }
 
 function escapeHtml(s) {
@@ -57,7 +57,7 @@ function renderLogs(logs) {
         <td colspan="10" style="text-align:center;padding:60px 20px;">
           <div class="empty-state">
             <div class="empty-state-icon">📭</div>
-            <div class="empty-state-text">Belum ada data log</div>
+            <div class="empty-state-text">No log data available</div>
           </div>
         </td>
       </tr>`;
@@ -66,18 +66,18 @@ function renderLogs(logs) {
   for (const l of logs) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${l.tanggal}</td>
-      <td>${escapeHtml(l.job_title || '')}</td>
-      <td>${l.pic}</td>
-      <td>${escapeHtml(l.application || '')}</td>
+      <td style="text-align:center;">${l.tanggal}</td>
+      <td style="text-align:center;">${escapeHtml(l.job_title || '')}</td>
+      <td style="text-align:center;">${l.pic}</td>
+      <td style="text-align:center;">${escapeHtml(l.application || '')}</td>
       <td>${escapeHtml(l.label)}</td>
       ${valueCell(l.old_value_text, l.old_value_image_url)}
       ${valueCell(l.new_value_text, l.new_value_image_url)}
-      <td><span class="status-badge status-${l.status}">${l.status}</span></td>
-      <td><span class="cat-badge">${l.category}</span></td>
-      <td>
+      <td style="text-align:center;"><span class="status-badge status-${l.status}">${l.status}</span></td>
+      <td style="text-align:center;"><span class="cat-badge">${l.category}</span></td>
+      <td style="text-align:center;">
         <button class="btn btn-sm" onclick="editLog(${l.id})">✏️ Edit</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteLog(${l.id})">🗑️ Hapus</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteLog(${l.id})">🗑️ Delete</button>
       </td>
     `;
     logsBody.appendChild(tr);
@@ -104,7 +104,7 @@ function closeModal() {
 
 qs('btnAdd').addEventListener('click', () => {
   closeModal();
-  openModal('Tambah Log');
+  openModal('Add Log');
 });
 qs('btnCancel').addEventListener('click', closeModal);
 qs('btnFilter').addEventListener('click', loadLogs);
@@ -114,7 +114,7 @@ qs('btnReset').addEventListener('click', () => {
 });
 
 window.deleteLog = async function(id) {
-  if (!confirm('Hapus log ini?')) return;
+  if (!confirm('Delete this log?')) return;
   await fetch('/api/logs/' + id, { method: 'DELETE' });
   loadLogs();
 };
@@ -167,15 +167,15 @@ logForm.addEventListener('submit', async (e) => {
   try {
     const res = await fetch(url, { method, body: fd });
     if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: 'Gagal menyimpan (status ' + res.status + ')' }));
-      alert('Gagal menyimpan: ' + (err.error || res.status));
+      const err = await res.json().catch(() => ({ error: 'Failed to save (status ' + res.status + ')' }));
+      alert('Failed to save: ' + (err.error || res.status));
       return;
     }
-    alert('Log berhasil disimpan');
+    alert('Log saved successfully');
     closeModal();
     loadLogs();
   } catch (e) {
-    alert('Gagal menyimpan: tidak bisa terhubung ke server (' + e.message + ')');
+    alert('Failed to save: unable to connect to server (' + e.message + ')');
   }
 });
 

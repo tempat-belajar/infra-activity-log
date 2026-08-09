@@ -177,7 +177,7 @@ thead th {
   background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-700) 100%);
   color: white;
   padding: 16px 12px;
-  text-align: left;
+  text-align: center;
   position: sticky;
   top: 0;
   white-space: nowrap;
