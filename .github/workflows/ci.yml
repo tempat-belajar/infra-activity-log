@@ -30,14 +30,33 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: self-hosted
     steps:
+      - name: Backup .env if exists
+        run: |
+          if [ -f ${{ github.workspace }}/.env ]; then
+            cp ${{ github.workspace }}/.env /tmp/.env.backup
+          fi
       - name: Cleanup workspace
         run: |
           cd ${{ github.workspace }}
           git clean -ffdx || true
           git reset --hard || true
+      - name: Restore .env
+        run: |
+          if [ -f /tmp/.env.backup ]; then
+            cp /tmp/.env.backup ${{ github.workspace }}/.env
+            rm /tmp/.env.backup
+          elif [ -f ${{ github.workspace }}/.env.example ]; then
+            cp ${{ github.workspace }}/.env.example ${{ github.workspace }}/.env
+          fi
       - uses: actions/checkout@v4
         with:
-          clean: true
+          clean: false
+      - name: Ensure .env exists
+        run: |
+          if [ ! -f .env ]; then
+            echo "⚠️ .env not found, creating from .env.example"
+            cp .env.example .env
+          fi
       - name: Build and deploy
         run: |
           docker compose -p infra-activity-log up -d --build
