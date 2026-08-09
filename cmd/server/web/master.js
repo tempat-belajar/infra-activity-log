@@ -28,13 +28,13 @@ function switchPage(pageName) {
 
   if (pageName === 'logs') {
     pageTitle.textContent = 'Activity Logs';
-    btnAdd.innerHTML = '<span>➕</span><span>Add Log</span>';
-    btnAdd.onclick = () => { openModal('Add Log'); };
-    btnAdd.style.display = 'flex';
+    btnAdd.textContent = '+ Add Log';
+    btnAdd.onclick = null;
+    btnAdd.style.display = '';
+    loadLogs();
   } else if (pageName.startsWith('master-')) {
-    const masterType = pageName.replace('master-', '').replace('-', ' ');
-    const titleCase = masterType.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-    pageTitle.textContent = 'Master ' + titleCase;
+    const masterType = pageName.replace('master-', '');
+    pageTitle.textContent = 'Master ' + getMasterTitle(masterType);
     btnAdd.style.display = 'none';
     loadMasterPage(pageName);
   }
@@ -174,7 +174,11 @@ function openMasterModal(type, mode, item = null) {
     </form>
   `;
   modal.classList.remove('hidden');
-  document.getElementById('masterForm').addEventListener('submit', saveMasterItem);
+  // Use cloneNode to remove any stale listeners before attaching new one
+  const form = document.getElementById('masterForm');
+  const freshForm = form.cloneNode(true);
+  form.parentNode.replaceChild(freshForm, form);
+  freshForm.addEventListener('submit', saveMasterItem);
 }
 
 function getMasterFormHTML(type, item) {
@@ -207,25 +211,36 @@ async function saveMasterItem(e) {
   const form = e.target;
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
-  
+
+  const saveBtn = form.querySelector('[type="submit"]');
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Saving...';
+
   try {
-    const url = currentMasterItem 
+    const url = currentMasterItem
       ? `/api/master/${currentMasterType}/${currentMasterItem.id}`
       : `/api/master/${currentMasterType}`;
     const method = currentMasterItem ? 'PUT' : 'POST';
-    
+
     const res = await fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    
-    if (!res.ok) throw new Error('Failed to save');
-    
+
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({ error: 'Server error ' + res.status }));
+      throw new Error(errBody.error || 'Failed to save');
+    }
+
     closeMasterModal();
     loadMasterData(currentMasterType);
+    // Refresh dropdowns after master data changes
+    loadDropdownOptions();
   } catch (error) {
     alert('Failed to save: ' + error.message);
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save';
   }
 }
 
@@ -240,6 +255,7 @@ async function deleteMasterItem(type, id) {
     const res = await fetch(`/api/master/${type}/${id}`, { method: 'DELETE' });
     if (!res.ok) throw new Error('Failed to delete');
     loadMasterData(type);
+    loadDropdownOptions();
   } catch (error) {
     alert('Failed to delete: ' + error.message);
   }
