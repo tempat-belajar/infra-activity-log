@@ -1,0 +1,99 @@
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  color: #1a1a1a;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+h1 { font-size: 22px; color: #1e5a7a; }
+
+.btn {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.btn-primary { background: #1e5a7a; color: #fff; border-color: #1e5a7a; }
+.btn-ghost { background: transparent; }
+.btn-danger { color: #c0392b; border-color: #c0392b; }
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+}
+.filters input, .filters select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.table-wrap { background: #fff; border-radius: 8px; overflow: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  background: #1e5a7a;
+  color: #fff;
+  padding: 10px 8px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  white-space: nowrap;
+}
+tbody td { padding: 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+tbody tr:hover { background: #f9fbfc; }
+tbody tr:nth-child(even) { background: #eef5f9; }
+
+.thumb { max-width: 80px; max-height: 60px; cursor: pointer; border-radius: 4px; border: 1px solid #ddd; }
+.value-cell { max-width: 220px; }
+.value-text { font-size: 12px; color: #444; margin-top: 4px; }
+
+.status-badge, .cat-badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-block;
+}
+.status-Open { background: #fdecea; color: #c0392b; }
+.status-Process { background: #fff4d6; color: #b8860b; }
+.status-Hold { background: #eee; color: #666; }
+.status-Done { background: #e3f6e5; color: #1e7a34; }
+.cat-badge { background: #e8eef5; color: #1e5a7a; }
+
+.modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.modal.hidden { display: none; }
+.modal-content {
+  background: #fff; padding: 24px; border-radius: 10px;
+  width: 90%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+}
+.modal-content h2 { margin-top: 0; }
+#logForm label { display: block; margin-bottom: 12px; font-size: 13px; font-weight: 600; }
+#logForm input, #logForm select, #logForm textarea {
+  width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;
+}
+#logForm textarea { min-height: 50px; font-weight: normal; }
+fieldset { border: 1px solid #ddd; border-radius: 6px; margin-bottom: 12px; }
+legend { font-size: 12px; font-weight: 600; padding: 0 6px; }
+.preview { max-width: 100px; margin-top: 8px; border-radius: 4px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+
+.lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  display: flex; align-items: center; justify-content: center; z-index: 200; cursor: zoom-out;
+}
+.lightbox.hidden { display: none; }
+.lightbox img { max-width: 90%; max-height: 90%; border-radius: 6px; }
+
+.hidden { display: none !important; }

@@ -1,0 +1,6 @@
+.env
+*.log
+/tmp
+uploads/
+go.work
+go.work.sum

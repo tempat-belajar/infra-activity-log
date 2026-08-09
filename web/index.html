@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infra Activity Log</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Infra Activity Log</h1>
+    <button id="btnAdd" class="btn btn-primary">+ Tambah Log</button>
+  </header>
+
+  <div class="filters">
+    <input type="date" id="fDateFrom" title="Dari tanggal">
+    <input type="date" id="fDateTo" title="Sampai tanggal">
+    <select id="fPic">
+      <option value="">Semua PIC</option>
+      <option value="DBA">DBA</option>
+      <option value="DCO">DCO</option>
+      <option value="NETWORK">NETWORK</option>
+    </select>
+    <select id="fStatus">
+      <option value="">Semua Status</option>
+      <option value="Open">Open</option>
+      <option value="Process">Process</option>
+      <option value="Hold">Hold</option>
+      <option value="Done">Done</option>
+    </select>
+    <select id="fCategory">
+      <option value="">Semua Category</option>
+      <option value="Change">Change</option>
+      <option value="Daily">Daily</option>
+      <option value="Incident">Incident</option>
+    </select>
+    <input type="text" id="fSearch" placeholder="Cari label/application...">
+    <button id="btnFilter" class="btn">Filter</button>
+    <button id="btnReset" class="btn btn-ghost">Reset</button>
+  </div>
+
+  <div class="table-wrap">
+    <table id="logsTable">
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>Job Title</th>
+          <th>PIC</th>
+          <th>Application</th>
+          <th>Label</th>
+          <th>Old Value</th>
+          <th>Req New Value</th>
+          <th>Status</th>
+          <th>Category</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="logsBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <h2 id="modalTitle">Tambah Log</h2>
+    <form id="logForm">
+      <input type="hidden" id="logId">
+      <label>Tanggal <input type="date" id="fldTanggal" required></label>
+      <label>Job Title <input type="text" id="fldJobTitle" placeholder="cth: Network Engineer"></label>
+      <label>PIC
+        <select id="fldPic" required>
+          <option value="DBA">DBA</option>
+          <option value="DCO">DCO</option>
+          <option value="NETWORK">NETWORK</option>
+        </select>
+      </label>
+      <label>Application <input type="text" id="fldApplication" placeholder="cth: Wialon Local"></label>
+      <label>Label <textarea id="fldLabel" required placeholder="Deskripsi aktivitas"></textarea></label>
+
+      <fieldset>
+        <legend>Old Value</legend>
+        <textarea id="fldOldValueText" placeholder="Teks old value (opsional)"></textarea>
+        <input type="file" id="fldOldValueImage" accept="image/png,image/jpeg">
+        <img id="oldPreview" class="preview hidden">
+      </fieldset>
+
+      <fieldset>
+        <legend>Req New Value</legend>
+        <textarea id="fldNewValueText" placeholder="Teks new value (opsional)"></textarea>
+        <input type="file" id="fldNewValueImage" accept="image/png,image/jpeg">
+        <img id="newPreview" class="preview hidden">
+      </fieldset>
+
+      <label>Status
+        <select id="fldStatus" required>
+          <option value="Open">Open</option>
+          <option value="Process">Process</option>
+          <option value="Hold">Hold</option>
+          <option value="Done">Done</option>
+        </select>
+      </label>
+      <label>Category
+        <select id="fldCategory" required>
+          <option value="Change">Change</option>
+          <option value="Daily">Daily</option>
+          <option value="Incident">Incident</option>
+        </select>
+      </label>
+
+      <div class="modal-actions">
+        <button type="button" id="btnCancel" class="btn btn-ghost">Batal</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="lightbox" class="lightbox hidden">
+  <img id="lightboxImg" src="">
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
