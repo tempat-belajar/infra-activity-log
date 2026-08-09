@@ -74,9 +74,9 @@ func (h *Handler) GetLog(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, l)
 }
 
-func validateEnums(pic, status, category string) string {
-	if !models.ValidPIC[pic] {
-		return "invalid pic value"
+func validateEnums(jobTitle, status, category string) string {
+	if !models.ValidJobTitle[jobTitle] {
+		return "invalid job_title value"
 	}
 	if !models.ValidStatus[status] {
 		return "invalid status value"
@@ -144,7 +144,7 @@ func (h *Handler) CreateLog(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, http.StatusBadRequest, "tanggal and label are required")
 		return
 	}
-	if msg := validateEnums(l.PIC, l.Status, l.Category); msg != "" {
+	if msg := validateEnums(l.JobTitle, l.Status, l.Category); msg != "" {
 		writeErr(w, http.StatusBadRequest, msg)
 		return
 	}
@@ -199,7 +199,7 @@ func (h *Handler) UpdateLog(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, http.StatusBadRequest, "tanggal and label are required")
 		return
 	}
-	if msg := validateEnums(l.PIC, l.Status, l.Category); msg != "" {
+	if msg := validateEnums(l.JobTitle, l.Status, l.Category); msg != "" {
 		writeErr(w, http.StatusBadRequest, msg)
 		return
 	}
