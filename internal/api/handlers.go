@@ -138,6 +138,8 @@ func (h *Handler) CreateLog(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, http.StatusBadRequest, msg)
 		return
 	}
+
+	oldImg, err := h.saveUploadedFile(r, "old_value_image")
 	if err != nil {
 		writeErr(w, http.StatusBadRequest, err.Error())
 		return
