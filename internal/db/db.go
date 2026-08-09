@@ -116,7 +116,7 @@ func (d *DB) GetLog(ctx context.Context, id int) (*models.ActivityLog, error) {
 
 func (d *DB) CreateLog(ctx context.Context, l models.ActivityLog) (int, error) {
 	q := `INSERT INTO activity_logs
-		(tanggal::text, job_title, pic, application, label, old_value_text, old_value_image_url,
+		(tanggal, job_title, pic, application, label, old_value_text, old_value_image_url,
 		new_value_text, new_value_image_url, status, category)
 		VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING id`
 	var id int
