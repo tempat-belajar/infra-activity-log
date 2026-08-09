@@ -9,8 +9,11 @@
 <body>
 <div class="container">
   <header>
-    <h1>Infra Activity Log</h1>
-    <button id="btnAdd" class="btn btn-primary">+ Tambah Log</button>
+    <h1>📋 Infra Activity Log</h1>
+    <button id="btnAdd" class="btn btn-primary">
+      <span>➕</span>
+      <span>Tambah Log</span>
+    </button>
   </header>
 
   <div class="filters">
@@ -37,9 +40,9 @@
       <option value="Daily">Daily</option>
       <option value="Incident">Incident</option>
     </select>
-    <input type="text" id="fSearch" placeholder="Cari label/application...">
-    <button id="btnFilter" class="btn">Filter</button>
-    <button id="btnReset" class="btn btn-ghost">Reset</button>
+    <input type="text" id="fSearch" placeholder="🔍 Cari label/application...">
+    <button id="btnFilter" class="btn btn-primary">🔎 Filter</button>
+    <button id="btnReset" class="btn btn-ghost">↻ Reset</button>
   </div>
 
   <div class="table-wrap">

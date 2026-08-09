@@ -21,9 +21,19 @@ function buildQuery() {
 }
 
 async function loadLogs() {
-  const res = await fetch('/api/logs?' + buildQuery());
-  const logs = await res.json();
-  renderLogs(logs);
+  logsBody.innerHTML = '<tr><td colspan="10" class="loading">Memuat data</td></tr>';
+  try {
+    const res = await fetch('/api/logs?' + buildQuery());
+    const logs = await res.json();
+    renderLogs(logs);
+  } catch (error) {
+    logsBody.innerHTML = `
+      <tr>
+        <td colspan="10" style="text-align:center;padding:40px;color:var(--danger);">
+          ⚠️ Gagal memuat data. Silakan coba lagi.
+        </td>
+      </tr>`;
+  }
 }
 
 function valueCell(text, imageUrl) {
@@ -41,8 +51,16 @@ function escapeHtml(s) {
 
 function renderLogs(logs) {
   logsBody.innerHTML = '';
-  if (!logs.length) {
-    logsBody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:20px;color:#888">Belum ada data</td></tr>';
+  if (!logs || !logs.length) {
+    logsBody.innerHTML = `
+      <tr>
+        <td colspan="10" style="text-align:center;padding:60px 20px;">
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <div class="empty-state-text">Belum ada data log</div>
+          </div>
+        </td>
+      </tr>`;
     return;
   }
   for (const l of logs) {
@@ -58,8 +76,8 @@ function renderLogs(logs) {
       <td><span class="status-badge status-${l.status}">${l.status}</span></td>
       <td><span class="cat-badge">${l.category}</span></td>
       <td>
-        <button class="btn" onclick="editLog(${l.id})">Edit</button>
-        <button class="btn btn-danger" onclick="deleteLog(${l.id})">Hapus</button>
+        <button class="btn btn-sm" onclick="editLog(${l.id})">✏️ Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteLog(${l.id})">🗑️ Hapus</button>
       </td>
     `;
     logsBody.appendChild(tr);
