@@ -161,23 +161,19 @@ function openMasterModal(type, mode, item = null) {
   
   const formHTML = getMasterFormHTML(type, item);
   
-  const modalHTML = `
-    <div class="modal-content">
-      <h2>${title}</h2>
-      <form id="masterForm">
-        ${formHTML}
-        <div class="modal-actions">
-          <button type="button" class="btn btn-ghost" onclick="closeMasterModal()">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-      </form>
-    </div>
+  const modal = document.getElementById('masterModal');
+  const content = document.getElementById('masterModalContent');
+  content.innerHTML = `
+    <h2>${title}</h2>
+    <form id="masterForm">
+      ${formHTML}
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" onclick="closeMasterModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
   `;
-  
-  const modal = document.getElementById('modal');
-  modal.innerHTML = modalHTML;
   modal.classList.remove('hidden');
-  
   document.getElementById('masterForm').addEventListener('submit', saveMasterItem);
 }
 
@@ -203,7 +199,7 @@ function getMasterFormHTML(type, item) {
 }
 
 function closeMasterModal() {
-  document.getElementById('modal').classList.add('hidden');
+  document.getElementById('masterModal').classList.add('hidden');
 }
 
 async function saveMasterItem(e) {

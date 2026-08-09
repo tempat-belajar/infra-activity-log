@@ -1,5 +1,5 @@
 const logsBody = document.getElementById('logsBody');
-const modal = document.getElementById('modal');
+const modal = document.getElementById('logModal');
 const logForm = document.getElementById('logForm');
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
