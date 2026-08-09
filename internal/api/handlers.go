@@ -74,15 +74,9 @@ func (h *Handler) GetLog(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, l)
 }
 
-func validateEnums(jobTitle, status, category string) string {
-	if !models.ValidJobTitle[jobTitle] {
-		return "invalid job_title value"
-	}
-	if !models.ValidStatus[status] {
-		return "invalid status value"
-	}
-	if !models.ValidCategory[category] {
-		return "invalid category value"
+func validateRequired(tanggal, label string) string {
+	if tanggal == "" || label == "" {
+		return "tanggal and label are required"
 	}
 	return ""
 }
@@ -140,16 +134,10 @@ func (h *Handler) CreateLog(w http.ResponseWriter, r *http.Request) {
 		Category:     r.FormValue("category"),
 	}
 
-	if l.Tanggal == "" || l.Label == "" {
-		writeErr(w, http.StatusBadRequest, "tanggal and label are required")
-		return
-	}
-	if msg := validateEnums(l.JobTitle, l.Status, l.Category); msg != "" {
+	if msg := validateRequired(l.Tanggal, l.Label); msg != "" {
 		writeErr(w, http.StatusBadRequest, msg)
 		return
 	}
-
-	oldImg, err := h.saveUploadedFile(r, "old_value_image")
 	if err != nil {
 		writeErr(w, http.StatusBadRequest, err.Error())
 		return
@@ -195,11 +183,7 @@ func (h *Handler) UpdateLog(w http.ResponseWriter, r *http.Request) {
 		Status:       r.FormValue("status"),
 		Category:     r.FormValue("category"),
 	}
-	if l.Tanggal == "" || l.Label == "" {
-		writeErr(w, http.StatusBadRequest, "tanggal and label are required")
-		return
-	}
-	if msg := validateEnums(l.JobTitle, l.Status, l.Category); msg != "" {
+	if msg := validateRequired(l.Tanggal, l.Label); msg != "" {
 		writeErr(w, http.StatusBadRequest, msg)
 		return
 	}
